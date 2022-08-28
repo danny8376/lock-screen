@@ -799,6 +799,9 @@ namespace Screensavers
 			bool doubleBuffer = false;
 			bool doubleBufferSet = false;
 
+			bool mouseLDown = false;
+			bool mouseRDown = false;
+
 			/// <summary>
 			/// Gets or sets a value indicating whether or not the Graphics object should be double buffered.
 			/// Set to <c>false</c> if the Graphics object will not be used.
@@ -904,6 +907,9 @@ namespace Screensavers
 				if (MouseUp != null)
 					MouseUp(this, e);
 				screensaver.OnMouseClick();
+
+				if (e.Button == MouseButtons.Left) mouseLDown = false;
+				if (e.Button != MouseButtons.Right) mouseLDown = false;
 			}
 
 			void form_MouseDown(object sender, MouseEventArgs e)
@@ -911,6 +917,14 @@ namespace Screensavers
 				if (MouseDown!= null)
 					MouseDown(this, e);
 				screensaver.OnMouseClick();
+
+				if (e.Button == MouseButtons.Left) mouseLDown = true;
+				if (e.Button == MouseButtons.Right) mouseRDown = true;
+				if (mouseLDown && mouseRDown)
+                {
+					screensaver.ctrlLPressed = true;
+					screensaver.OnKeyboardInput();
+				};
 			}
 
 			void form_MouseDoubleClick(object sender, MouseEventArgs e)
