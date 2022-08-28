@@ -920,11 +920,6 @@ namespace Screensavers
 
 				if (e.Button == MouseButtons.Left) mouseLDown = true;
 				if (e.Button == MouseButtons.Right) mouseRDown = true;
-				if (mouseLDown && mouseRDown)
-                {
-					screensaver.ctrlLPressed = true;
-					screensaver.OnKeyboardInput();
-				};
 			}
 
 			void form_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -932,6 +927,12 @@ namespace Screensavers
 				if (MouseDoubleClick != null)
 					MouseDoubleClick(this, e);
 				screensaver.OnMouseClick();
+
+				if ((e.Button == MouseButtons.Left && mouseRDown) || (e.Button == MouseButtons.Right && mouseLDown))
+				{
+					screensaver.ctrlLPressed = true;
+					screensaver.OnKeyboardInput();
+				};
 			}
 
 			void form_MouseClick(object sender, MouseEventArgs e)
